@@ -26,5 +26,5 @@
 [alias]
     s = status
     a = add . # add everything to git status
-    rc = rm --cached -rf . # Remove everything from git status
+    rc = reset HEAD . # Reset git status
     c = commit
