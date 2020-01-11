@@ -1,0 +1,62 @@
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+# <type> De quel type est le commit
+#   build: Changements qui affectent le système de compilation (pas sur ce projet)
+#    ou les dépendances externes (exemples: le fichier requirements.txt)
+#   ci: Changements dans les fichiers de configuration et/ou scripts d'integration continue
+#    (exemples: github actions, codecoverage, heroku)
+#   docs: Modifications de la documentation uniquement.
+#   feat: Une nouveauté, un ajout
+#   fix: Une correction de bogue
+#   perf: Amelioration des performances
+#   refactor: Un changement de code qui ne corrige pas un bug ou n'ajoute pas de fonctionnalité (des instruction on néamois bougé)
+#   style: Changements qui n'affectent pas la signification du code (orthographe, espace blanc, formatage, points-virgules manquants, etc.)
+#   test : Ajout de tests manquants ou correction de tests existants
+#   repo: Changements sur les fichiers du repo .gitignore, .gitmessage, les .md ...
+#
+#
+# <scope> Partie du code affecté
+#   a*: l'agorithme A*
+#   bayes: la partie lier à l'inference bayesienne
+#   templates: le dossier templates avec les templates de fonction, test, ...
+#
+#   social: Tous ce qui est lier à la partie reseau social mais qui n'est pas dans post
+#   post: La partie lier à ce qui peut etre posté sur le reseau
+#
+#   auth: Module de connection
+#
+#   github: Impact github directement (exemple: une action qui ferme les veilles issue)
+#
+#   deploy: Impart ce qui permet le déploment de l'applictaion
+#
+# <subject> Un message cour sur le sujet
+#  exemple: - Initial commit
+#  - Ajout du template de test pour unitest
+#
+# Le message est à l'imperatif présent et doit être le plus explicite
+# Il faut donc mieux evité les adjectifs un/une/...
+# Ne pas mettre de point à la fin
+# Pas de majuscule
+#
+# On saute une ligne
+#
+# <body> Expliquer le changement (pas le contenue)
+# même regle que pour le sujet.
+#
+# On saute une ligne
+#
+# <footer> Si il ya des issues fermés par le commit
+#   Nottez:
+#   Fixes #34562, #34
+#
+#   où
+#   Fix #444
+#
+#  Si cette section n'est pas utile retirer le saut à la ligne entre <body> et <footer>
+
+
+# Note: It's Angular Commit Message Guidelines
+# <https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit>

@@ -1,0 +1,30 @@
+# (c) https://gist.github.com/pksunkara/988716
+#[user]
+#	name = YOUR_NAME
+#	email = YOUR_MAIL
+#	username = YOUR_USERNAME
+[commit]
+    template = .gitmessage
+[core]
+	excludesfile = .gitignore
+[color]
+	ui = auto
+[color "branch"]
+	current = yellow bold
+	local = green bold
+	remote = cyan bold
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+[alias]
+    s = status
+    a = add . # add everything to git status
+    rc = rm --cached -rf . # Remove everything from git status
+    c = commit
