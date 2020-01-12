@@ -6,8 +6,6 @@
 # <type> De quel type est le commit
 #   build: Changements qui affectent le système de compilation (pas sur ce projet)
 #    ou les dépendances externes (exemples: le fichier requirements.txt)
-#   ci: Changements dans les fichiers de configuration et/ou scripts d'integration continue
-#    (exemples: github actions, codecoverage, heroku)
 #   docs: Modifications de la documentation uniquement.
 #   feat: Une nouveauté, un ajout
 #   fix: Une correction de bogue
@@ -15,7 +13,8 @@
 #   refactor: Un changement de code qui ne corrige pas un bug ou n'ajoute pas de fonctionnalité (des instruction on néamois bougé)
 #   style: Changements qui n'affectent pas la signification du code (orthographe, espace blanc, formatage, points-virgules manquants, etc.)
 #   test : Ajout de tests manquants ou correction de tests existants
-#   repo: Changements sur les fichiers du repo .gitignore, .gitmessage, les .md ...
+#   repo: Changements sur les fichiers du repo et/ou scripts d'integration continue
+#    (exemples: github actions, codecoverage, .gitignore, .gitmessage, les .md ...)
 #
 #
 # <scope> Partie du code affecté
