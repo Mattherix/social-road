@@ -1,14 +1,11 @@
-<subject>: Une explication rapide de l'interet de la PR
+Une explication rapide de l'interet de la PR
 
-Fixes #2398, #46546464
+Branche: ...
+La branche sera merge/rebase et détruite/conservé
 
-## Changement:
+# Issues
 
-- Changement 1
-- Changement 2
+- \#2 Met en place ...
+- \#444 Fix les problème de ...
 
-## Explication
 
-J'ai changer ça parce que, bla bla bla
-
-Des photos si c'est utile
