@@ -47,12 +47,12 @@
 #
 # On saute une ligne
 #
-# <footer> Si il ya des issues fermés par le commit
-#   Nottez:
-#   Fixes #34562, #34
+# <footer> Si votre commit impact des issues nottez
+#   Fix #444 ou Fixes #444, #445
+#   ou
+#   Issue #444 ou Issues #444, #445
 #
-#   où
-#   Fix #444
+#   (Utilisé le mot Fix quand l'issue est pour un bug, sinon utilisé Issue)
 #
 #  Si cette section n'est pas utile retirer le saut à la ligne entre <body> et <footer>
 
