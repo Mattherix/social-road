@@ -20,7 +20,7 @@ def add(a, b):
     :raise TypeError: Si a ou b n'est pas un float/int
     """
     # Verification des arguments
-    if not (isinstance(a, float) or isinstance(a, int) and isinstance(b, float) or isinstance(b, int)):
+    if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
         raise TypeError
 
     # Calcul

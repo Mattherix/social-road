@@ -1,4 +1,4 @@
-from unittest import main, TestCase
+from unittest import TestCase
 from ..fonction import add
 
 
@@ -23,7 +23,3 @@ class Test(TestCase):
         # On test la valeurs de retour
         self.assertIsInstance(add(1, 1), int)
         self.assertIsInstance(add(1, 2.0), float)
-
-
-if __name__ == '__main__':
-    main()
