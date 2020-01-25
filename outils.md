@@ -67,3 +67,28 @@ pip install -r requirements.txt # Installations des modules présent dans requir
 ```
 
 Sur linux on utilise pip3 (pip est la commande pour accéder à pip pour python v2)
+
+## Django
+
+Django est un framework de développement web extrêmement efficace et très bien documenté.
+
+- [site](https://www.djangoproject.com/)
+- [documentation](https://docs.djangoproject.com/en/3.0/)
+
+## Folium
+
+Folium est un outils permetant d'afficher des données cartographique sur un site web
+
+- [repo](https://github.com/python-visualization/folium)
+
+## data.gov.fr
+
+Toutes les données partagé par le gouvernement français.
+
+- [le réseau routier](https://www.data.gouv.fr/fr/datasets/voies-reseau-routier/)
+
+## Sphinx
+
+Surmment l'outils pour générer des documentations le plus puissant au monde
+
+- [](https://www.sphinx-doc.org/en/master/)
