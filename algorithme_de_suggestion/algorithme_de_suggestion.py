@@ -69,3 +69,60 @@ On obtient alors la probabilité que l'utilisateur aime le post.
 
 
 """
+from typing import List, Dict, Union, Tuple
+
+import typeguard
+
+
+@typeguard.typechecked
+def note_post(
+        post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]],
+        user: Dict[str, Union[int, bool, List[int]]]
+) -> float:
+    """Note un post par rapport a l'utilisateur
+
+    Cette fonction utilise l'equation de bayes afin de renvoyer
+    la probabilité que l'utilisateur like sachant l'experience
+    de l'utilisateur cible
+
+    :param post: Les informations d'un post
+    :type post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]
+    :param user: Les informations de l'utilisateur cible
+    :type user: Dict[str, Union[int, bool, List[int]]]
+    :return: La probabilité que l'utilisateur like sachant sont experiences
+    :rtype: float
+
+    (Une explication plus precise des paramètre sont dans le fichier data du module)
+    """
+
+
+@typeguard.typechecked
+def suggestion(
+        liste_info_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]],
+        user: Dict[str, Union[int, bool, List[int]]],
+        list_info_nouveau_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]] = None,
+        nbr_de_reponse: int = None,
+        proportion_de_nouveaute: float = 0.2
+) -> List[int]:
+    """Renvoie les contenues les plus pertinent pour un utilisateur
+
+    Cette fonction utilise l'equation de bayes afin de suggerer le post le plus
+    pertinent. Des explications sur sont fonctionnement se trouve dans l'aide principale
+    du module. Une proportion de nouveauté (par rapport à la platforme) peux être
+    mis en avant automatiquement parmis les réponses.
+
+    :param liste_info_post: La liste des information sur le post
+    :type liste_info_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]]
+    :param user: Les informations de l'utilisateur cible
+    :type user: Dict[str, Union[int, bool, List[int]]]
+    :param list_info_nouveau_post: La liste des informations sur les nouveaux posts
+    :type list_info_nouveau_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]]
+    :param nbr_de_reponse: Le nombre de réponse attendue
+    :type nbr_de_reponse: int
+    :param proportion_de_nouveaute: La proportion de nouveauté mis en avant (de 0 à 1)
+    :type proportion_de_nouveaute: float
+    :return: Une liste d'id des posts par ordre de préference
+    :rtype: List[int]
+
+    (Une explication plus precise des paramètre sont dans le fichier data du module)
+    """
