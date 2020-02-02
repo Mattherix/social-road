@@ -5,16 +5,15 @@ Organisation des données:
 
 liste_info_post = [<post>, <post>, ...]
 
-<post>: Tuple[<post_id>, <user_list>] Un post effectué
+<post>: Tuple[<post_id>, <vue>, <user_list>] Un post effectué
 
 <post_id>: int Un identifiant numerique pour le post
-<user_list>: List[Tuple[<vue>, <user>], Tuple[<vue>, <user>], ...] La liste des utilisateur ayant vue le post
+<vue>: int Le nombre de foit ou l'utilisateur cible a vue le post
+<user_list>: List[<user>, <user>, ...] La liste des utilisateur ayant vue le post
 
-<vue>: int Le nombre de foit ou l'utilisateur a vue le post
 <user>: Dict[
     'user_id': <user_id>,
     'note': <note>,
-    'like': <like>,
     'like_list': <like_list>,
     'friend': <friend>,
 ]

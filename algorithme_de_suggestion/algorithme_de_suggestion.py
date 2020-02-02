@@ -77,7 +77,7 @@ import typeguard
 @typeguard.typechecked
 def note_post(
         post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]],
-        user: Dict[str, Union[int, bool, List[int]]]
+        user: Dict[str, Union[int, float, List[int]]]
 ) -> float:
     """Note un post par rapport a l'utilisateur
 
@@ -98,9 +98,9 @@ def note_post(
 
 @typeguard.typechecked
 def suggestion(
-        liste_info_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]],
-        user: Dict[str, Union[int, bool, List[int]]],
-        list_info_nouveau_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]] = None,
+        liste_info_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, float, List[int]]]]]],
+        user: Dict[str, Union[int, float, List[int]]],
+        list_info_nouveau_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, float, List[int]]]]]] = None,
         nbr_de_reponse: int = None,
         proportion_de_nouveaute: float = 0.2
 ) -> List[int]:
@@ -112,11 +112,11 @@ def suggestion(
     mis en avant automatiquement parmis les réponses.
 
     :param liste_info_post: La liste des information sur le post
-    :type liste_info_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]]
+    :type liste_info_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, float, List[int]]]]]]
     :param user: Les informations de l'utilisateur cible
-    :type user: Dict[str, Union[int, bool, List[int]]]
+    :type user: Dict[str, Union[int, float, List[int]]]
     :param list_info_nouveau_post: La liste des informations sur les nouveaux posts
-    :type list_info_nouveau_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, bool, List[int]]]]]]
+    :type list_info_nouveau_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, float, List[int]]]]]]
     :param nbr_de_reponse: Le nombre de réponse attendue
     :type nbr_de_reponse: int
     :param proportion_de_nouveaute: La proportion de nouveauté mis en avant (de 0 à 1)
