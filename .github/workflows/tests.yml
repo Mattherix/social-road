@@ -13,10 +13,6 @@ jobs:
     timeout-minutes: 1
     steps:
     - uses: actions/checkout@v1
-    - name: gitCret
-      uses: CySeq/gitcret@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
