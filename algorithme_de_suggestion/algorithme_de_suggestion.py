@@ -74,65 +74,17 @@ Plus d'info:
 
 
 """
+from decimal import Decimal, getcontext
 from typing import List, Dict, Union, Tuple, Set
 from math import sqrt
-from fractions import Fraction
 
-
-def transforme_post(
-        post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, Set[int]]]]]
-) -> Tuple[List[Tuple[str, int]], List[List[bool]]]:
-    """Transforme un post en un tableau contenant les utilisateurs selon leurs labels
-
-    Transforme un post en un tableau, le premier élément de chaque ligne et l'user_id,
-    les significations des collones sont données dans un dictionnaire s'organnisant ainsi:
-    {
-        'like': {post_id: index_collone, ...},
-        'friend': {post_id: index_collone, ...}
-    }
-
-    :param post: Les informations d'un post
-    :type post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, Set[int]]]]]
-    :return: Un tuple contenant le dictionnaire faissant le lien post_id -> colone et le tableau
-    :rtype: Tuple[Dict[str, Dict[int, int]], List[List[bool]]]
-
-    (Une explication plus precise des paramètre sont dans le fichier data du module)
-    """
-    # On crée une copie de la liste afin d'éviter les effets de bord
-    user_liste = list(post[2])
-
-    # On cherche tous les label lier au post et on les inclues à la première liste du tableau
-    liste_label = []
-    for user in user_liste:
-        for like in user['like']:
-            # On donne un numero de colone si ce label n'en a pas
-            if ('like', like) not in liste_label:
-                liste_label.append(('like', like))
-        for friend in user['friend']:
-            # Même chose mais pour les amis
-            if ('friend', friend) not in liste_label:
-                liste_label.append(('friend', friend))
-
-    # On crée le tabeau en iterant dans la liste des utilisateurs
-    tableau = []
-    for user in user_liste:
-        ligne = []
-        # Pour chaque label possible ...
-        for label in liste_label:
-            # On ajoute True si l'utilisateur l'a et False si il ne l'a pas
-            if label[1] in user[label[0]]:
-                ligne.append(True)
-            else:
-                ligne.append(False)
-        tableau.append(ligne)
-
-    return liste_label, tableau
+getcontext().prec = 100  # Precision des calcules
 
 
 def note_post(
         post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, Set[int]]]]],
         user: Dict[str, Union[int, float, Set[int]]]
-) -> Fraction:
+) -> Decimal:
     """Note un post par rapport a l'utilisateur
 
     Cette fonction utilise l'equation de bayes afin de renvoyer
@@ -144,79 +96,97 @@ def note_post(
     :param user: Les informations de l'utilisateur cible
     :type user: Dict[str, Union[int, bool, Set[int]]]
     :return: La probabilité que l'utilisateur like sachant sont experiences
-    :rtype: Fraction
+    :rtype: Decimal
 
     (Une explication plus precise des paramètre sont dans le fichier data du module)
     """
-    # On trasforme la liste les utilisateurs pour obtenir un tableau des données
-    liste_label, tableau = transforme_post(post)
+    # On crée une copie de la liste afin d'éviter les effet de bord
+    user_liste = list(post[2])
 
     # On instancie des variables pour clarifier le code
     post_id = post[0]
+    nbr_utilisateur = len(user_liste)
 
-    # Pour chaque label on compte le nombre de positif et de négatif
+    # On cherche les labels liés au utilisateurs lier au post
+    labels = {
+        'like': set(),
+        'friend': set()
+    }
+    for utilisateur in user_liste:
+        for type_de_label in ['like', 'friend']:
+            for label in utilisateur[type_de_label]:
+                labels[type_de_label].add(label)
+
+    # On dénombre la nombre de labels
+    # nbr_de_label[type_de_label][condition][aime]
     nbr_de_label = {
         'like': {
-            True: {},
-            False: {}
+            True: {True: {}, False: {}},
+            False: {True: {}, False: {}}
         },
         'friend': {
-            True: {},
-            False: {}
+            True: {True: {}, False: {}},
+            False: {True: {}, False: {}}
         }
     }
-    for numero_de_la_colone, label in enumerate(liste_label):
-        for utilisateur in tableau:
-            if label[1] not in nbr_de_label[label[0]][True]:
-                nbr_de_label[label[0]][True][label[1]] = 0
-            if label[1] not in nbr_de_label[label[0]][False]:
-                nbr_de_label[label[0]][False][label[1]] = 0
+    for utilisateur in user_liste:
+        if post_id in utilisateur['like']:
+            aime = True
+        else:
+            aime = False
+        for type_de_label, dict_type_de_label in nbr_de_label.items():
+            for label in labels[type_de_label]:
+                # On ajoute le label s'il n'est pas dans le dictionnaire
+                if label not in dict_type_de_label[True][True]:
+                    dict_type_de_label[True][True][label] = 0
+                if label not in dict_type_de_label[False][True]:
+                    dict_type_de_label[False][True][label] = 0
+                if label not in dict_type_de_label[True][False]:
+                    dict_type_de_label[True][False][label] = 0
+                if label not in dict_type_de_label[False][False]:
+                    dict_type_de_label[False][False][label] = 0
 
-            if utilisateur[numero_de_la_colone]:
-                nbr_de_label[label[0]][True][label[1]] += 1
-            else:
-                nbr_de_label[label[0]][False][label[1]] += 1
+                # On incremente le nombre d'utilisateur avec/sans le label si l'utilisateur l'a/ne l'a pas
+                if label in utilisateur[type_de_label]:
+                    dict_type_de_label[True][aime][label] += 1
+                else:
+                    dict_type_de_label[False][aime][label] += 1
 
-    # On cherche les paramètre de l'équation de bayes pour l'utilisateur
-    # On calcule la vraisemblance
+    # On cherche les paramètres de l'équation de bayes pour l'utilisateur
+    # On calcule la vraisemblance et l'évidence
     vraisemblance = 1
-    for type_du_label in nbr_de_label:
-        for label in liste_label:
-            if label[0] != type_du_label:
-                continue
-
-            if label[1] in user[type_du_label]:
-                condition = True
-            else:
-                condition = False
-
-            # nbr_de_foix_ou le label apparait / nbr_de_like
-            vraisemblance *= Fraction(
-                nbr_de_label[type_du_label][condition][label[1]],
-                nbr_de_label[type_du_label][condition][label[1]] + nbr_de_label[type_du_label][not condition][label[1]]
-            )
-
-    # On calcule l'évidence
-    nbr_utilisateur = len(tableau)
     evidence = 1
-    for type_du_label in nbr_de_label:
-        for label in liste_label:
-            if label[0] != type_du_label:
-                continue
-
-            if label[1] in user[type_du_label]:
+    for type_de_label in ['like', 'friend']:
+        for label in labels[type_de_label]:
+            # On regarde si l'utilisateur a le label ou pas
+            if label in user[type_de_label]:
                 condition = True
             else:
                 condition = False
 
-            #  nbr_de_foix_ou_le_label_apparait / nbr_utilisateur
-            evidence *= Fraction(nbr_de_label[type_du_label][condition][label[1]], nbr_utilisateur)
+            nbr_total_du_label = \
+                Decimal(nbr_de_label[type_de_label][condition][True][label]) + \
+                Decimal(nbr_de_label[type_de_label][condition][False][label])
+
+            nbr_de_foix_ou_le_label_apparait = Decimal(nbr_de_label[type_de_label][condition][True][label])
+            if nbr_de_foix_ou_le_label_apparait == 0:
+                # On evite ainsi de mettre la vraisemblance à 0, néamoins la probabilité est biaisé
+                nbr_de_foix_ou_le_label_apparait = 1
+
+            # Vraisemblance: nbr_de_foix_ou_le_label_apparait_sachant_que_l'on_aime / nbr_de_label_sachant_que_l'on_aime
+            vraisemblance *= \
+                Decimal(nbr_de_foix_ou_le_label_apparait) / Decimal(nbr_total_du_label)
+
+            # Evidence: nbr_de_foix_ou_le_label_apparait / nbr_utilisateur
+            evidence *= Decimal(nbr_total_du_label) / Decimal(nbr_utilisateur)
 
     # On calcule l'anterieur
-    anterieur = Fraction(nbr_de_label['like'][True][post_id], nbr_utilisateur)
+    anterieur = \
+        Decimal(nbr_de_label['like'][True][True][post_id] +
+                nbr_de_label['like'][True][False][post_id]) / Decimal(nbr_utilisateur)
 
     # On applique le théorème de bayes
-    note = Fraction(anterieur * vraisemblance, evidence)
+    note = anterieur * vraisemblance / evidence
     return note
 
 
@@ -259,30 +229,28 @@ def suggestion(
         classement_ancien = suggestion(liste_info_post, user)
         del liste_info_post
 
-        # On obtient un nombre de réponse si l'on en a pas
-        if not nbr_de_reponse:
-            nbr_de_reponse = len(classement_nouveau) + len(classement_ancien) + 1
-
         # On mélange les 2 classements
         classement = []
-        index_ancien = 0
-        index_nouveau = 0
-        proportion = proportion_de_nouveaute
+        proportion = float(proportion_de_nouveaute)
         # A chaque tour on ajoute la proportion demandé à 'proportion'
         #   quand 'proportion' est à 1  ou pluson ajoute un nouveau post
         #   et on met 'proportion' à:
         #   'proportion_de_nouveaute' + 'proposition' - 1
-        for _ in range(nbr_de_reponse - 1):
-            if proportion >= 1:
-                classement.append(classement_ancien[index_ancien])
-                index_ancien += 1
+        while len(classement_ancien) + len(classement_nouveau) != 0:
+            if proportion >= 1 and len(classement_nouveau) != 0:
+                classement.append(classement_nouveau.pop(0))
                 proportion = (proportion - 1) + proportion_de_nouveaute
             else:
-                classement.append(classement_nouveau[index_nouveau])
-                index_nouveau += 1
+                classement.append(classement_ancien.pop(0))
                 proportion += proportion_de_nouveaute
 
-        return classement
+        # Y a il un nombre de réponse limite ?
+        if nbr_de_reponse:
+            # Oui
+            return classement[0:nbr_de_reponse]
+        else:
+            # Non
+            return classement
     else:
         # On note chaque posts
         note_des_posts: List[Tuple[int, float]] = []  # [(post_id, note), ...]
@@ -290,7 +258,7 @@ def suggestion(
             note_des_posts.append(
                 (
                     post[0],
-                    note_post(post, user) * (1 / sqrt(post[1] + 1))
+                    note_post(post, user) * Decimal(1 / sqrt(post[1] + 1))
                 )
             )
         del liste_info_post
@@ -308,85 +276,3 @@ def suggestion(
         else:
             # Non
             return classement
-
-
-from pickle import load
-
-f = open('tests/algorithme_de_suggestion.pkl', 'rb')
-try:
-    data = load(f)
-finally:
-    f.close()
-
-print(suggestion(data, data[1565][2][15], nbr_de_reponse=10))
-
-"""
-
-    # On instancie des variables pour clarifier le code
-    post_id = post[0]
-    # On crée une copie de la liste afin d'éviter les effet de bord
-    user_liste = list(post[2])
-    nbr_utilisateur = len(user_liste)
-
-    # On retire les utilisateurs qui n'ont pas like le post
-    user_liste = [user for user in user_liste if post_id in user['like']]
-
-    # On dénombre tous les labels liés à l'experience de l'utilisateur et aux utilisateurs qui on like le post
-    label_like = {
-        'like': {},
-        'friend': {}
-    }
-    label = {
-        'like': {},
-        'friend': {}
-    }
-    for utilisateur in user_liste:
-        for like in utilisateur['like']:
-            if like in user['like']:
-                try:
-                    label_like['like'][like] += 1
-                except KeyError:
-                    label_like['like'][like] = 1
-            try:
-                label['like'][like] += 1
-            except KeyError:
-                label['like'][like] = 1
-        for friend in utilisateur['friend']:
-            if friend in user['friend']:
-                try:
-                    label_like['friend'][friend] += 1
-                except KeyError:
-                    label_like['friend'][friend] = 1
-            try:
-                label['like'][like] += 1
-            except KeyError:
-                label['like'][like] = 1
-
-    # On obtient les termes de l'équation de bayes
-    # anterieur -> P(aime le post) = nbr_de_like / nbr_utilisateur
-    nbr_de_like = label['like'][post_id]
-    anterieur = Decimal(nbr_de_like) / Decimal(nbr_utilisateur)
-
-    # vraisemblance -> P(label 1|aime le post)*p(label 2|aime le post)*...
-    #   avec P(label|aime le post) = P(l & A)/P(A) =
-    #   (nbr_de_personne_ayant_like_avec_le_label/nbr_utilisateur)/(nbr_de_like / nbr_utilisateur)
-    #   = nbr_de_personne_ayant_like_avec_le_label / nbr_de_like
-    #   On ne compte que les labels dans l'experience de l'utilisateur
-    # évidence -> p(label 1)*p(label 2)*...
-    #   avec P(label) = nbr_de_personne_avec_le_label / nbr_utilisateur
-    vraisemblance = 1
-    # On obtient les valeurs des labels lié à l'utilisateur
-    liste_des_labels_qui_ont_like = list(label_like['like'].values()) + list(label_like['friend'].values())
-    for nbr_de_personne_avec_le_label_qui_on_like in liste_des_labels_qui_ont_like:
-        # Pour chaque label on obtient la vraisemblance et l'évidence
-        vraisemblance *= (Decimal(nbr_de_personne_avec_le_label_qui_on_like) / Decimal(nbr_de_like))
-
-    evidence = 1
-    liste_des_labels = list(label['like'].values()) + list(label['friend'].values())
-    for nbr_de_personne_avec_le_label in liste_des_labels:
-        evidence *= (Decimal(nbr_de_personne_avec_le_label) / Decimal(nbr_utilisateur))
-
-    # On applique le théorème de bayes
-    note = (anterieur * vraisemblance) / evidence
-    return note
-"""
