@@ -1,6 +1,8 @@
 """
 Fichier avec des données de test pour l'agorithme de suggestion
 
+Note: Les fonctions n'ont pas de test automatisé car les resultat dépend du hasard
+
 Organisation des données:
 
 liste_info_post = [<post>, <post>, ...]
@@ -112,6 +114,7 @@ def generate_user(nbr_utilisateur: int, nbr_de_post: int) -> List[Dict[str, Unio
     :return: La liste des info utilisateurs généré
     :rtype: List[Dict[str, Union[int, float, Set[int]]]]
     """
+    # On obtient des utilisateurs sans like ou amis
     utilisateurs = []
     for user_id in range(0, nbr_utilisateur):
         utilisateurs.append({
@@ -121,6 +124,7 @@ def generate_user(nbr_utilisateur: int, nbr_de_post: int) -> List[Dict[str, Unio
             'friend': set()
         })
 
+    # On obtient les likes et amis des utilisateurs
     utilisateurs = get_like(utilisateurs, nbr_de_post)
     utilisateurs = get_friend(utilisateurs, round(nbr_utilisateur * random() * 15))
 
@@ -168,17 +172,21 @@ def generate_post(
 
     return posts
 
-
-# Pour générerer des données décommenterr le code qui suit
+# Pour générerer des données de test décommenter le code qui suit
 #
-# from pickle import dump
-# nbr_de_post = 2500
-# nbr_de_utilisateur = round(nbr_de_post / 5)
-# data = generate_post(nbr_de_post, nbr_de_utilisateur)
+#  from pickle import dump
 #
-# f = open('test_data.pkl', 'wb')
-# try:
-#     dump(data, f)
-#     f.close()
-# except:
-#     f.close()
+#  NBR_DE_POST = 2500
+#  NBR_DE_UTILISATEUR = round(NBR_DE_POST / 5)
+#
+#
+#  def save(data, name):
+#      f = open(name, 'wb')
+#      try:
+#          dump(data, f)
+#      finally:
+#          f.close()
+#
+#
+#  data = generate_post(NBR_DE_POST, NBR_DE_UTILISATEUR)
+#  save(data, 'tests/algorithme_de_suggestion.pkl')
