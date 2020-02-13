@@ -77,8 +77,9 @@ Plus d'info:
 from decimal import Decimal, getcontext
 from typing import List, Dict, Union, Tuple, Set
 from math import sqrt
+from multiprocessing import Pool
 
-getcontext().prec = 100  # Precision des calcules
+getcontext().prec = 10  # Precision des calcules
 
 
 def note_post(
@@ -90,17 +91,18 @@ def note_post(
     Cette fonction utilise l'equation de bayes afin de renvoyer
     la probabilité que l'utilisateur like sachant l'experience
     de l'utilisateur cible
+    Attention, afin de ne pas avoir de probablité égale à 0 le calcule est biaisé.
 
     :param post: Les informations d'un post
     :type post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, Set[int]]]]]
     :param user: Les informations de l'utilisateur cible
     :type user: Dict[str, Union[int, bool, Set[int]]]
-    :return: La probabilité que l'utilisateur like sachant sont experiences
+    :return: La probabilité biaisé que l'utilisateur like sachant sont experiences
     :rtype: Decimal
 
     (Une explication plus precise des paramètre sont dans le fichier data du module)
     """
-    # On crée une copie de la liste afin d'éviter les effet de bord
+    # On crée une copie de la liste afin d'éviter les effets de bord
     user_liste = list(post[2])
 
     # On instancie des variables pour clarifier le code
@@ -190,6 +192,22 @@ def note_post(
     return note
 
 
+def notation_post(
+        post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, Set[int]]]]],
+        user: Dict[str, Union[int, float, Set[int]]]
+) -> Tuple[int, Decimal]:
+    """Donne la notation finale d'un post sois probabilité que l'utilisateur aime le post * (1/sqrt(vue + 1))
+
+    :param post: Les informations d'un post
+    :type post: Tuple[int, Tuple[int, Dict[str, Union[int, bool, Set[int]]]]]
+    :param user: Les informations de l'utilisateur cible
+    :type user: Dict[str, Union[int, bool, Set[int]]]
+    :return: Le post_id et la note du post pour l'utilisateur
+    :rtype: Tuple[int, Decimal]
+    """
+    return post[0], note_post(post, user) * Decimal(1 / sqrt(post[1] + 1))
+
+
 def suggestion(
         liste_info_post: List[Tuple[int, Tuple[int, Dict[str, Union[int, float, Set[int]]]]]],
         user: Dict[str, Union[int, float, Set[int]]],
@@ -253,14 +271,14 @@ def suggestion(
             return classement
     else:
         # On note chaque posts
-        note_des_posts: List[Tuple[int, float]] = []  # [(post_id, note), ...]
-        for post in liste_info_post:
-            note_des_posts.append(
-                (
-                    post[0],
-                    note_post(post, user) * Decimal(1 / sqrt(post[1] + 1))
-                )
-            )
+        # On lance plusieurs processus pour accelérer les calcules
+        user_liste = [user for _ in range(len(liste_info_post))]
+        with Pool() as pool:
+            note_des_posts = pool.starmap(
+                notation_post,
+                zip(liste_info_post, user_liste)
+            )  # [(post_id, note), ...]
+
         del liste_info_post
 
         # On trie les résultats selon les notes
