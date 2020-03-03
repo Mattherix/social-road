@@ -19,3 +19,6 @@ venv.bak/
 .gitconfig
 .gitingore
 .gitmessage
+
+# Django
+db.sqlite3
