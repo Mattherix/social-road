@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Social-road{% endblock %}
+
+{% block content %}
+<h3>Core</h3>
+<ul>
+    <li><a href="{% url 'core:license' %}">Licence</a></li>
+    <li><a href="{% url 'core:privacy' %}">Privacy</a></li>
+</ul>
+<h3>Account</h3>
+<ul>
+    <li><a href="{% url 'account:register' %}">Register</a></li>
+    <li><a href="{% url 'account:login' %}">Login</a></li>
+    <li><a href="{% url 'account:logout' %}">Logout</a></li>
+    <li><a href="{% url 'account:edit' %}">Edit</a></li>
+    <li><a href="{% url 'account:friends' %}">Friends</a></li>
+    <li><a href="{% url 'account:notifications' %}">Notifications</a></li>
+</ul>
+<h3>Post</h3>
+<ul>
+    <li><a href="{% url 'post:new_post' %}">Nouveaux Post</a></li>
+    <li><a href="{% url 'post:posts' %}">Posts</a></li>
+    <li><a href="{% url 'post:post' 0 %}">Post</a></li>
+</ul>
+{% endblock %}

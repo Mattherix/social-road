@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Titre du post{% endblock %}
+
+{% block content %}
+{{ object.date|date }}<br>
+{{ object.creator }}<br>
+{{ object.title}}<br>
+{{ object.text }}<br>
+<!-- TODO: https://fle.github.io/easy-webmapping-with-django-leaflet-and-django-geojson.html -->
+{% endblock %}
