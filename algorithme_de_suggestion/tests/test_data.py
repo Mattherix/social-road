@@ -1,7 +1,7 @@
-from unittest import TestCase
-from ..data import get_like, get_friend, generate_user, generate_post
-
 from random import random
+from unittest import TestCase
+
+from ..data import get_like, get_friend, generate_user, generate_post
 
 
 class Test(TestCase):

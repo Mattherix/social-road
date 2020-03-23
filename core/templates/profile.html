@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Nom d'utilisateur{% endblock %}
+
+{% block content %}
+{{ object.username }}<br>
+{{ object.birth_date|date }}<br>
+{{ object.bio }}<br>
+<img src="{{ object.image.url }}" alt="{{ object.username }}"><br>
+{{ object.is_active }}<br>
+{% endblock %}

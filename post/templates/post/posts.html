@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Type des posts{% endblock %}
+
+{% block content %}
+<ul>
+{% for post in post_list %}
+    <li>{{ post.date|date }} {{ post.creator }} {{ post.title }} {{ post.text }} <!-- TODO: https://fle.github.io/easy-webmapping-with-django-leaflet-and-django-geojson.html --></li>
+{% empty %}
+    <li>Pas d'amis</li>
+{% endfor %}
+</ul>
+<!-- TODO: infinite-scroll.com -->
+{% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+{% endif %}
+
+<span class="current">
+    {{ page_obj.number }}
+</span>
+
+{% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+{% endif %}
+{% endblock %}
