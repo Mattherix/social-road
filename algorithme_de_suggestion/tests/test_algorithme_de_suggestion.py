@@ -1,8 +1,8 @@
 from decimal import Decimal
-from unittest import TestCase
-from ..algorithme_de_suggestion import note_post, suggestion
-
 from pickle import load
+from unittest import TestCase
+
+from ..algorithme_de_suggestion import note_post, suggestion
 
 
 class Test(TestCase):

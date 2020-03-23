@@ -75,9 +75,9 @@ Plus d'info:
 
 """
 from decimal import Decimal, getcontext
-from typing import List, Dict, Union, Tuple, Set
 from math import sqrt
 from multiprocessing import Pool
+from typing import List, Dict, Union, Tuple, Set
 
 getcontext().prec = 10  # Precision des calcules
 

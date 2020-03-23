@@ -24,6 +24,7 @@
 #
 #   social: Tous ce qui est lier à la partie reseau social mais qui n'est pas dans post
 #   post: La partie lier à ce qui peut etre posté sur le reseau
+#   account: La partie lier au système de connection
 #
 #   auth: Module de connection
 #

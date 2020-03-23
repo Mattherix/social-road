@@ -4,6 +4,11 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def root(path):
+    """Le directory de base + path"""
+    return os.path.join(BASE_DIR, path)
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -15,9 +20,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,6 +28,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
+
+    'ckeditor',
+    'ckeditor_uploader',
+
+    'account',
+    'core',
+    'post'
 ]
 
 MIDDLEWARE = [
@@ -42,7 +53,7 @@ ROOT_URLCONF = 'social_road.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [root('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,11 +78,19 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    root("asserts"),
+]
+STATIC_ROOT = root("staticfiles")
 
+# Media files (Tous les fichiers upload)
+MEDIA_ROOT = root("media")
+CKEDITOR_UPLOAD_PATH = "ckeditor/"
+MEDIA_URL = "/media/"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -86,8 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+LOGIN_URL = '/account/login/'
 
-
+LOGIN_REDIRECT_URL = '/'
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
