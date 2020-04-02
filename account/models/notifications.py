@@ -9,7 +9,7 @@ class Notification(models.Model):
 
     Ce model représente une notification pour un utilisateur:
         date: Date de création de l'object
-        user: Un lien  er le profile de l'utilisateur
+        user: Un lien  vers le profile de l'utilisateur
         post: Le post lier à la notification (optionnel)
         type: Le type de notification
         level: Un entier de 1 à 10 (les 2 bornes inclues) sur l'importance du message

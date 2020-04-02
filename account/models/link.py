@@ -35,6 +35,27 @@ class SocialLink(models.Model):
     def __str__(self):
         return self.user.username + ' is ' + self.username + ' on ' + self.network
 
+    @property
+    def url(self):
+        if self.network == 'F':
+            return 'https://www.facebook.com/' + self.username
+        elif self.network == 'Y':
+            return 'https://www.youtube.com/user/' + self.username
+        elif self.network == 'I':
+            return 'https://www.instagram.com/' + self.username + '/'
+        elif self.network == 'Tw':
+            return 'https://twitter.com/' + self.username
+        elif self.network == 'S':
+            return 'snapchat://add/' + self.username
+        elif self.network == 'P':
+            return 'https://www.pinterest.fr/' + self.username + '/'
+        elif self.network == 'L':
+            return 'https://www.linkedin.com/in/' + self.username
+        elif self.network == 'Te':
+            return 'https://t.me/' + self.username
+        elif self.network == 'R':
+            return 'https://www.reddit.com/user/' + self.username
+
 
 class Friendship(models.Model):
     """Lien d'amitié
@@ -56,3 +77,7 @@ class Friendship(models.Model):
 
     def __str__(self):
         return self.creator.username + ' ❤️ ' + self.friend.username
+
+    def accept(self):
+        """Accepté une demande d'amitié"""
+        self.validate = True
