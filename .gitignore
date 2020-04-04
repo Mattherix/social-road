@@ -28,3 +28,5 @@ core/migrations/
 account/migrations/
 post/migrations/
 
+# Test
+.pytest_cache/
