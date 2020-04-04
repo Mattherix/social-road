@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
@@ -17,6 +18,7 @@ def login_view(request):
 
 @login_required()
 def logout_view(request):
+    logout(request)
     return HttpResponse('Déconnecté')
 
 
@@ -36,5 +38,5 @@ class FriendList(ListView):
 @method_decorator(login_required, name='get')
 class NotificationList(ListView):
     model = Notification
-    template_name = 'account/notification.html'
+    template_name = 'account/notifications.html'
     context_object_name = 'notification_list'

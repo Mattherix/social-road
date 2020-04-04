@@ -1,0 +1,4 @@
+ignore:
+  - "social_road/wsgi.py"
+  - "social_road/settings/dev.py"
+  - "social_road/settings/prod.py"

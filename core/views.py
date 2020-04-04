@@ -5,6 +5,7 @@ from django.views.generic import DetailView
 
 from account.models import User
 
+
 def index(request):
     return render(request, 'home.html')
 

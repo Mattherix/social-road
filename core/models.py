@@ -37,3 +37,6 @@ class VoiesMel(models.Model):
     genre = models.CharField(max_length=255, null=True)
 
     road = models.LineStringField(srid=4326)
+
+    def __str__(self):
+        return self.nom_rue

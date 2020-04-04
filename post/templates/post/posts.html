@@ -5,7 +5,7 @@
 {% block content %}
 <ul>
 {% for post in post_list %}
-    <li>{{ post.date|date }} {{ post.creator }} {{ post.title }} {{ post.text }} <!-- TODO: https://fle.github.io/easy-webmapping-with-django-leaflet-and-django-geojson.html --></li>
+    <li>{{ post.date|date }} {{ post.creator }} {{ post.title }} {{ post.text|safe }} <!-- TODO: https://fle.github.io/easy-webmapping-with-django-leaflet-and-django-geojson.html --></li>
 {% empty %}
     <li>Pas d'amis</li>
 {% endfor %}
