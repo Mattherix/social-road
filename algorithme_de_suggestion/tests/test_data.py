@@ -1,6 +1,8 @@
 from random import random
 from unittest import TestCase
 
+from django.test import tag
+
 from ..data import get_like, get_friend, generate_user, generate_post
 
 
@@ -19,21 +21,25 @@ class Test(TestCase):
                 'friend': set()
             })
 
+    @tag('fast')
     def test_get_like(self):
         # On ne peut pas tester les resultats car ils sont lier au hasard
         #   On va donc juste lancer la fonction et voir le temps d'execution
         get_like(self.utilisateurs, self.NBR_DE_POST)
 
+    @tag('fast')
     def test_get_friend(self):
         # On ne peut pas tester les resultats car ils sont lier au hasard
         #   On va donc juste lancer la fonction et voir le temps d'execution
         get_friend(self.utilisateurs, round(self.NBR_UTILISATEUR * random() * 15))
 
+    @tag('fast')
     def test_generate_user(self):
         # On ne peut pas tester les resultats car ils sont lier au hasard
         #   On va donc juste lancer la fonction et voir le temps d'execution
         generate_user(self.NBR_UTILISATEUR, self.NBR_DE_POST)
 
+    @tag('fast')
     def test_generate_post(self):
         # On ne peut pas tester les resultats car ils sont lier au hasard
         #   On va donc juste lancer la fonction et voir le temps d'execution

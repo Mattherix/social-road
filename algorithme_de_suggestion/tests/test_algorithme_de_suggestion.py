@@ -2,6 +2,8 @@ from decimal import Decimal
 from pickle import load
 from unittest import TestCase
 
+from django.test import tag
+
 from ..algorithme_de_suggestion import note_post, suggestion
 
 
@@ -16,6 +18,7 @@ class Test(TestCase):
         self.liste_de_post = self.data[0:100]
         self.user = self.data[1565][2][15]
 
+    @tag('slow', 'core')
     def test_note_post(self):
         # On verifie le retour sur 20 posts
         solutions = [
@@ -123,6 +126,7 @@ class Test(TestCase):
         for post, solution in zip(self.liste_de_post, solutions):
             self.assertAlmostEqual(note_post(post, self.user), Decimal(solution))
 
+    @tag('slow', 'core')
     def test_suggestion(self):
         # On verifie la liste de retour
         self.assertEqual(

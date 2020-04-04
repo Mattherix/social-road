@@ -1,8 +1,13 @@
 from unittest import TestCase
+
+from django.test import tag
+
 from ..fonction import add
 
 
 class Test(TestCase):
+
+    @tag('fast')
     def test_add(self):
         # https://docs.python.org/3/library/unittest.html#assert-methods
         # On test les parametres

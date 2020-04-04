@@ -23,3 +23,8 @@ venv.bak/
 # Django
 db.sqlite3
 staticfiles/
+media/
+core/migrations/
+account/migrations/
+post/migrations/
+
