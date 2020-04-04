@@ -68,30 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social_road.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-if 'DOCKER' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': 'user',
-            'USER': 'user',
-            'PASSWORD': 'password',
-            'HOST': 'db',
-            'PORT': '5432',
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': 'user',
-            'USER': 'user',
-            'PASSWORD': 'password',
-            'HOST': '127.0.0.1',
-            'PORT': '24279',
-        }
-    }
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
@@ -121,7 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-LOGIN_URL = '/account/login/'
+LOGIN_URL = '/account/login'
 
 LOGIN_REDIRECT_URL = '/'
 # Internationalization
