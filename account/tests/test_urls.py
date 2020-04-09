@@ -18,7 +18,7 @@ class TestUrls(TestCase):
     @tag('fast')
     def test_register_resolved(self):
         url = self.register_url
-        self.assertEqual(resolve(url).func, register_view)
+        self.assertEqual(resolve(url).func.view_class, RegisterView)
 
     @tag('fast')
     def test_login_resolved(self):

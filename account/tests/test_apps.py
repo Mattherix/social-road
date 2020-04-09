@@ -1,6 +1,6 @@
+from django.apps import apps
 from django.test import TestCase, tag
 
-from django.apps import apps
 from account.apps import AccountConfig
 
 

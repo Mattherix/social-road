@@ -3,4 +3,9 @@
 {% block title %}S'inscrire{% endblock %}
 
 {% block content %}
+<form class="" action="{% url 'account:register' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="S'inscrire">
+</form>
 {% endblock %}

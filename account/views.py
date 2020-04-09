@@ -1,15 +1,24 @@
-from django.contrib.auth import logout
+from django.conf import settings
+from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
+from django.views.generic import ListView, FormView
 
+from account.form import CustomUserCreationForm
 from .models import Friendship, Notification
 
 
-def register_view(request):
-    return render(request, 'account/register.html')
+class RegisterView(FormView):
+    template_name = 'account/register.html'
+    form_class = CustomUserCreationForm
+    success_url = settings.LOGIN_REDIRECT_URL
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return super().form_valid(form)
 
 
 def login_view(request):

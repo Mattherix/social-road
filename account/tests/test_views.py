@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.test import TestCase, tag
 from django.urls import reverse
 
@@ -29,6 +31,25 @@ class TestView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'account/register.html')
+
+    @tag('fast')
+    def test_register_POST(self):
+        password = User.objects.make_random_password()
+        birth_date = datetime.now()
+        data = {
+            'username': 'test',
+            'email': 'test@test.com',
+            'password1': password,
+            'password2': password,
+            'birth_date': '{}-{}-{}'.format(
+                birth_date.year,
+                birth_date.month,
+                birth_date.day
+            )
+        }
+        response = self.client.post(self.register_url, data=data, follow=True)
+
+        self.assertEqual(response.status_code, 200)
 
     @tag('fast')
     def test_login_GET(self):

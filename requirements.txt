@@ -12,4 +12,4 @@ django-redis
 lz4
 
 # Password
-django[argon2]
+argon2-cffi
