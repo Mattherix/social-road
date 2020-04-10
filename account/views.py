@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, FormView
 
@@ -34,7 +33,7 @@ class LoginView(FormView):
 @login_required()
 def logout_view(request):
     logout(request)
-    return HttpResponse('Déconnecté')
+    return redirect('core:index')
 
 
 @login_required()

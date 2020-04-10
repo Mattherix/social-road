@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth import get_user
 from django.test import TestCase, tag
 from django.urls import reverse
 
@@ -79,9 +80,11 @@ class TestView(TestCase):
     @tag('fast')
     @login_logout
     def test_logout_logged_GET(self):
-        response = self.client.get(self.logout_url)
+        response = self.client.get(self.logout_url, follow=True)
+        user = get_user(self.client)
 
         self.assertEqual(response.status_code, 200)
+        self.assertFalse(user.is_authenticated)
 
     @tag('fast')
     def test_edit_not_logged_GET(self):
