@@ -23,7 +23,7 @@ class TestUrls(TestCase):
     @tag('fast')
     def test_login_resolved(self):
         url = self.login_url
-        self.assertEqual(resolve(url).func, login_view)
+        self.assertEqual(resolve(url).func.view_class, LoginView)
 
     @tag('fast')
     def test_logout_resolved(self):

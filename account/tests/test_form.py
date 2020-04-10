@@ -45,3 +45,46 @@ class TestCustomUserCreationForm(TestCase):
         }
         form = CustomUserCreationForm(data=data)
         self.assertFalse(form.is_valid())
+
+
+class TestCustomAuthenticationForm(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        User = get_user_model()
+
+        cls.username = 'test'
+        cls.email = 'test@test.com'
+        cls.password = User.objects.make_random_password()
+        cls.birth_date = datetime.now()
+
+        cls.user = User.objects.create_user(
+            username=cls.username,
+            email=cls.email,
+            password=cls.password,
+            birth_date=datetime.now()
+        )
+
+    @tag('fast')
+    def test_valid_data(self):
+        data = {
+            'username': self.username,
+            'password': self.password
+        }
+        form = CustomAuthenticationForm(data=data)
+
+        self.assertTrue(form.is_valid())
+
+    @tag('fast')
+    def test_no_data(self):
+        form = CustomAuthenticationForm()
+        self.assertFalse(form.is_valid())
+
+    @tag('fast')
+    def test_wrong_password(self):
+        data = {
+            'username': self.username,
+            'password': User.objects.make_random_password(),
+        }
+        form = CustomAuthenticationForm(data=data)
+        self.assertFalse(form.is_valid())

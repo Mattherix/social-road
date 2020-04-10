@@ -18,9 +18,10 @@ class TestView(TestCase):
         cls.friends_url = reverse('account:friends')
         cls.notifications_url = reverse('account:notifications')
 
+        cls.username = 'John Doe'
         cls.password = User.objects.make_random_password()
         cls.user = User.objects.create_user(
-            username='John Doe',
+            username=cls.username,
             email='John@doe.com',
             password=cls.password
         )
@@ -57,6 +58,16 @@ class TestView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'account/login.html')
+
+    @tag('fast')
+    def test_login_POST(self):
+        data = {
+            'username': self.username,
+            'password': self.password
+        }
+        response = self.client.post(self.login_url, data=data, follow=True)
+
+        self.assertEqual(response.status_code, 200)
 
     @tag('fast')
     def test_logout_not_logged_GET(self):
