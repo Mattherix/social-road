@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        lfs: 'true'
+        lfs: 'false'
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
@@ -33,6 +33,7 @@ jobs:
         sudo apt-get install -y gdal-bin python3-gdal proj-bin
     - name: Run test & Generate coverage report
       run: |
+        export DJANGO_SETTINGS_MODULE=social_road.settings.test
         python manage.py makemigrations
         pytest --cov=./ --cov-report=xml
     - name: Upload coverage to Codecov
