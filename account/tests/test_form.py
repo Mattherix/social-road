@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase, tag
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from account.form import *
 
@@ -89,7 +90,7 @@ class TestCustomAuthenticationForm(TestCase):
         form = CustomAuthenticationForm(data=data)
         self.assertFalse(form.is_valid())
 
-class CustomUserChangeForm(TestCase):
+class TestCustomUserChangeForm(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -101,6 +102,11 @@ class CustomUserChangeForm(TestCase):
         cls.birth_date = datetime.now()
         cls.bio = 'flsekfhoqsjfgsjdgfj '
         cls.slug = cls.username
+        cls.image = SimpleUploadedFile(
+            name='TUX.png',
+            content=open('account/tests/TUX.png', 'rb').read(),
+            content_type='image/png'
+        )
 
         cls.user = User.objects.create_user(
             username=cls.username,
@@ -112,16 +118,12 @@ class CustomUserChangeForm(TestCase):
     @tag('fast')
     def test_valid_data(self):
         data = {
-            'email': self.username,
-            'birth_date': self.password,
+            'email': self.email,
+            'birth_date': self.birth_date,
             'bio': self.bio,
             'image': self.image
         }
+        print(data)
         form = CustomUserChangeForm(data=data)
 
         self.assertTrue(form.is_valid())
-
-    @tag('fast')
-    def test_no_data(self):
-        form = CustomAuthenticationForm()
-        self.assertFalse(form.is_valid())

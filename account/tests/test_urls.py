@@ -33,7 +33,7 @@ class TestUrls(TestCase):
     @tag('fast')
     def test_edit_resolved(self):
         url = self.edit_url
-        self.assertEqual(resolve(url).func, edit_view)
+        self.assertEqual(resolve(url).func.view_class, EditView)
 
     @tag('fast')
     def test_friends_resolved(self):
