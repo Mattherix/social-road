@@ -1,4 +1,5 @@
 """Models lié à l'utilisateur seul"""
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
@@ -20,7 +21,7 @@ class User(AbstractUser):
     date = models.DateTimeField(auto_now_add=True, editable=False)
 
     slug = models.SlugField(blank=True, unique=True)
-    bio = models.TextField(max_length=500, blank=True)
+    bio = RichTextUploadingField(max_length=500, blank=True)
     birth_date = models.DateField(blank=True, null=True)
     image = models.ImageField(upload_to='profile/%Y/%m/%d', default='profile/default.png')
 

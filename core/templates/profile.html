@@ -5,7 +5,7 @@
 {% block content %}
 {{ object.username }}<br>
 {{ object.birth_date|date }}<br>
-{{ object.bio }}<br>
+{{ object.bio|safe }}<br>
 <img src="{{ object.image.url }}" alt="{{ object.username }}"><br>
 {{ object.is_active }}<br>
 {% endblock %}

@@ -3,4 +3,10 @@
 {% block title %}Info profile{% endblock %}
 
 {% block content %}
+<form class="" action="{% url 'account:edit' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form }}
+    <input type="submit" value="Modifier">
+</form>
 {% endblock %}

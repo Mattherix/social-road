@@ -6,14 +6,12 @@ services:
     environment:
       POSTGRES_USER: 'user'
       POSTGRES_PASSWORD: 'password'
-    ports:
-      - "24279:5432"
   web:
     build:
       context: .
       dockerfile: Dockerfile
     command: >
-      sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+      sh -c "sleep 10s && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     environment:
       DOCKER: 'true'
     volumes:

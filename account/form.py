@@ -1,4 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from ckeditor.widgets import CKEditorWidget
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 
 from .models.user import User
 
@@ -14,3 +16,8 @@ class CustomAuthenticationForm(AuthenticationForm):
         model = User
         fields = ('username', 'password')
 
+
+class CustomUserChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email', 'birth_date', 'bio', 'image')

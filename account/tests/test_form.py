@@ -88,3 +88,40 @@ class TestCustomAuthenticationForm(TestCase):
         }
         form = CustomAuthenticationForm(data=data)
         self.assertFalse(form.is_valid())
+
+class CustomUserChangeForm(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        User = get_user_model()
+
+        cls.username = 'test'
+        cls.email = 'test@test.com'
+        cls.password = User.objects.make_random_password()
+        cls.birth_date = datetime.now()
+        cls.bio = 'flsekfhoqsjfgsjdgfj '
+        cls.slug = cls.username
+
+        cls.user = User.objects.create_user(
+            username=cls.username,
+            email=cls.email,
+            password=cls.password,
+            birth_date=datetime.now()
+        )
+
+    @tag('fast')
+    def test_valid_data(self):
+        data = {
+            'email': self.username,
+            'birth_date': self.password,
+            'bio': self.bio,
+            'image': self.image
+        }
+        form = CustomUserChangeForm(data=data)
+
+        self.assertTrue(form.is_valid())
+
+    @tag('fast')
+    def test_no_data(self):
+        form = CustomAuthenticationForm()
+        self.assertFalse(form.is_valid())

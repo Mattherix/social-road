@@ -1,12 +1,13 @@
 from django.conf import settings
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, UpdateView
 
-from account.form import CustomUserCreationForm, CustomAuthenticationForm
-from .models import Friendship, Notification
+from account.form import CustomUserCreationForm, CustomAuthenticationForm, CustomUserChangeForm
+from .models import Friendship, Notification, User
 
 
 class RegisterView(FormView):
@@ -36,9 +37,28 @@ def logout_view(request):
     return redirect('core:index')
 
 
-@login_required()
-def edit_view(request):
-    return render(request, 'account/edit.html')
+@method_decorator(login_required, name='get')
+class EditView(UpdateView):
+    template_name = 'account/edit.html'
+    form_class = CustomUserChangeForm
+    model = User
+    success_url = settings.LOGIN_REDIRECT_URL
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get(self, request, **kwargs):
+        self.object = User.objects.get(pk=self.request.user.pk)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        context = self.get_context_data(object=self.object, form=form)
+        return self.render_to_response(context)
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @method_decorator(login_required, name='get')
