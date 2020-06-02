@@ -3,16 +3,19 @@ MAINTAINER Mattherix
 
 ENV PYTHONUNBUFFERED 1
 
-RUN adduser --no-create-home django
+RUN adduser --no-create-home socialroad
 
 RUN mkdir /social_road/
-RUN chown django /social_road/
+RUN chown socialroad /social_road/
 WORKDIR /social_road
 
-COPY requirements.txt /social_road/
-RUN pip install --no-cache -r requirements.txt
+COPY Makefile /social_road/
+COPY Makefile.test /social_road/
+RUN apt-get update
+RUN apt-get install -y make
 
-RUN apt-get update && apt-get install -y gdal-bin python3-gdal proj-bin
+COPY requirements.txt /social_road/
+RUN make install
 
 COPY ./staticfiles /social_road/staticfiles
 COPY ./account /social_road/account
@@ -23,4 +26,5 @@ COPY ./media /social_road/media
 COPY ./post /social_road/post
 COPY ./social_road /social_road/social_road
 COPY manage.py /social_road
-COPY ./voies_mel/voies_mel.shp /social_road/voies_mel.shp
+
+USER socialroad
