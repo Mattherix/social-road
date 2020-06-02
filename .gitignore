@@ -30,3 +30,5 @@ post/migrations/
 
 # Test
 .pytest_cache/
+.coverage
+coverage.xml

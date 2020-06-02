@@ -1,0 +1,11 @@
+.PHONY: test-requirements
+test-requirements: requirements
+	pip install -r requirements_test.txt
+
+.PHONY: test
+test: migrate test-requirements
+	pytest -k-slow --cov=./ --cov-report=xml
+
+.PHONY: test-slow
+test-slow: migrate test-requirements
+	pytest --cov=./ --cov-report=xml

@@ -28,3 +28,9 @@ migrate:
 run:
 	python manage.py runserver --host $(HOST) --port $(PORT)
 
+.PHONY: clean
+clean:
+	rm -f coverage.xml .coverage
+	rm -fR .pytest_cache
+
+include Makefile.test
