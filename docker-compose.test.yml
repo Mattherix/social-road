@@ -10,7 +10,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.test
-    command: make test
+    command: sleep 10s && make test
     volumes:
       - .:/social_road
     ports:
