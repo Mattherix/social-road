@@ -19,3 +19,16 @@ venv.bak/
 .gitconfig
 .gitingore
 .gitmessage
+
+# Django
+db.sqlite3
+staticfiles/
+media/
+core/migrations/
+account/migrations/
+post/migrations/
+
+# Test
+.pytest_cache/
+.coverage
+coverage.xml

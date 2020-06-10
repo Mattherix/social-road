@@ -1,0 +1,23 @@
+FROM python:3.6-slim
+MAINTAINER Mattherix
+
+ENV PYTHONUNBUFFERED 1
+
+RUN adduser --no-create-home socialroad
+
+RUN mkdir /social_road/
+RUN chown -R socialroad:socialroad /social_road
+WORKDIR /social_road
+
+COPY Makefile /social_road/
+COPY Makefile.test /social_road/
+COPY Makefile.docker /social_road/
+RUN apt-get update
+RUN apt-get install -y make
+
+COPY requirements.txt /social_road/
+RUN make install
+
+COPY . /social_road
+
+USER socialroad

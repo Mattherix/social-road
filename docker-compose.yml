@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgis/postgis:12-3.0-alpine
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'password'
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "sleep 10s && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/social_road
+    ports:
+      - "80:8000"
+    depends_on:
+      - db

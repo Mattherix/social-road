@@ -1,0 +1,16 @@
+.PHONY: test-requirements
+test-requirements: requirements ## Install python's test requirements
+	pip install --no-cache-dir -r requirements_test.txt
+
+.PHONY: test-install
+test-install: test-requirements ## Install all test's dependances (only on debian-base system)
+	apt-get update
+	apt-get install -y gdal-bin python3-gdal proj-bin
+
+.PHONY: test
+test: migrate ## Run every fast tests
+	pytest -k-slow --cov=./ --cov-report=xml
+
+.PHONY: test-slow
+test-slow: migrate ## Run all tests
+	pytest --cov=./ --cov-report=xml

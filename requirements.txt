@@ -1,0 +1,15 @@
+Django
+
+# For the Database
+psycopg2-binary
+Pillow
+
+# Ckeditor
+django-ckeditor
+
+# For the cache
+django-redis
+lz4
+
+# Password
+argon2-cffi

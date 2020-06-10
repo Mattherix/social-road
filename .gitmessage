@@ -24,12 +24,14 @@
 #
 #   social: Tous ce qui est lier à la partie reseau social mais qui n'est pas dans post
 #   post: La partie lier à ce qui peut etre posté sur le reseau
+#   account: La partie lier au système de connection
 #
 #   auth: Module de connection
 #
 #   github: Impact github directement (exemple: une action qui ferme les veilles issue)
 #
 #   deploy: Impart ce qui permet le déploment de l'applictaion
+#   make: Impact la makefile
 #
 # <subject> Un message cour sur le sujet
 #  exemple: - Initial commit
