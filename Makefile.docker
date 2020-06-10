@@ -1,23 +1,23 @@
 .PHONY: docker-build
-docker-build:
+docker-build: ## Build the main image
 	docker-compose build
 
 .PHONY: docker-test-build
-docker-test-build:
+docker-test-build: ## Build the test image
 	docker-compose --file docker-compose.test.yml build
 
 .PHONY: docker-up
-docker-up:
+docker-up: ## A shortcut to docker-compose up &
 	docker-compose up &
 
 .PHONY: docker-ps
-docker-ps:
+docker-ps: ## A shortcut to docker-compose ps
 	docker-compose ps
 
 .PHONY: docker-shell
-docker-shell:
+docker-shell: ## Start a shell (bash) in the container
 	docker-compose exec web bash
 
 .PHONY: docker-test
-docker-test: docker-test-build
+docker-test: docker-test-build ## Run all the test with docker
 	docker-compose --file docker-compose.test.yml run test
