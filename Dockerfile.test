@@ -16,8 +16,7 @@ RUN apt-get update
 RUN apt-get install -y make
 
 COPY requirements.txt /social_road/
-RUN make install
+COPY requirements_test.txt /social_road/
+RUN make test-install
 
 COPY . /social_road
-
-USER socialroad

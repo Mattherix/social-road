@@ -1,0 +1,12 @@
+.git/
+.github/
+.idea/
+media/
+venv/
+.gitattributes
+.gitconfig
+.gitmessage
+docker-compose.yml
+docker-compose.test.yml
+Dockerfile
+*.md
