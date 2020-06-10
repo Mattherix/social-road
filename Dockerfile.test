@@ -20,5 +20,3 @@ COPY requirements_test.txt /social_road/
 RUN make test-install
 
 COPY . /social_road
-
-USER socialroad
