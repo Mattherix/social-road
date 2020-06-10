@@ -6,7 +6,7 @@ ROAD_DB=https://www.data.gouv.fr/fr/datasets/r/84676c65-af40-42c4-b24a-79eecbbcf
 .PHONY: requirements
 requirements:
 	python -m pip install --upgrade pip
-	pip install -r requirements.txt
+	pip install --no-cache-dir -r requirements.txt
 
 .PHONY: install
 install: requirements
@@ -34,3 +34,4 @@ clean:
 	rm -fR .pytest_cache
 
 include Makefile.test
+include Makefile.docker

@@ -9,9 +9,8 @@ services:
   test:
     build:
       context: .
-      dockerfile: Dockerfile
-    command: >
-      sh -c "sleep 5s && make test"
+      dockerfile: Dockerfile.test
+    command: make test
     volumes:
       - .:/social_road
     ports:

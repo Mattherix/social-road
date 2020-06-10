@@ -1,0 +1,23 @@
+.PHONY: docker-build
+docker-build:
+	docker-compose build
+
+.PHONY: docker-test-build
+docker-test-build:
+	docker-compose --file docker-compose.test.yml build
+
+.PHONY: docker-up
+docker-up:
+	docker-compose up &
+
+.PHONY: docker-ps
+docker-ps:
+	docker-compose ps
+
+.PHONY: docker-shell
+docker-shell:
+	docker-compose exec web bash
+
+.PHONY: docker-test
+docker-test: docker-test-build
+	docker-compose --file docker-compose.test.yml run test

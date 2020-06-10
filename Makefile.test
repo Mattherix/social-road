@@ -1,11 +1,16 @@
 .PHONY: test-requirements
 test-requirements: requirements
-	pip install -r requirements_test.txt
+	pip install --no-cache-dir -r requirements_test.txt
+
+.PHONY: test-install
+test-install: test-requirements
+	apt-get update
+	apt-get install -y gdal-bin python3-gdal proj-bin
 
 .PHONY: test
-test: migrate test-requirements
+test: migrate
 	pytest -k-slow --cov=./ --cov-report=xml
 
 .PHONY: test-slow
-test-slow: migrate test-requirements
+test-slow: migrate
 	pytest --cov=./ --cov-report=xml
