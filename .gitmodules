@@ -1,0 +1,3 @@
+[submodule "algorithme_de_suggestion"]
+	path = algorithme_de_suggestion
+	url = git@github.com:Mattherix/social-road-algorithme-de-suggestion.git
